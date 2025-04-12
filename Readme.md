@@ -11,10 +11,10 @@ RealtimeChatApp is a real-time messaging platform built with Node.js, Express, M
 
 ## Technologies Used
 
-- **Frontend**: HTML, CSS, JavaScript
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB with Mongoose
-- **Real-Time Engine**: Socket.IO
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB with Mongoose
+- **Real-Time Engine**: Socket.IO
 
 ## Installation
 
