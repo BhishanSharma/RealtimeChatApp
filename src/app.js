@@ -66,4 +66,4 @@ app.use("/api/v1/oauth", oauthRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/messages", messageRouter);
 
-export { app, server, io };
+export { app, server };

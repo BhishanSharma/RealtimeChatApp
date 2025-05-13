@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { loginUser, logoutUser, refreshAccessToken, registerUser } from "../controllers/user.controller";
-import { verifyJWT } from "../middlewares/verifyJWT.middleware";
+import { loginUser, logoutUser, refreshAccessToken, registerUser } from "../controllers/user.controller.js";
+import { verifyJWT } from "../middlewares/verifyJWT.middleware.js";
 
 const routes = Router();
 
