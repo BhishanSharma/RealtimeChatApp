@@ -43,6 +43,7 @@ RealtimeChatApp is a real-time messaging platform built with **Node.js**, **Expr
 ---
 
 ## Project Structure
+```
 |- **RealtimeChatApp**
 |   |- **public**
 |   |   |- **temp**
@@ -80,6 +81,7 @@ RealtimeChatApp is a real-time messaging platform built with **Node.js**, **Expr
 |   |- package-lock.json
 |   |- package.json
 |   |- README.md
+```
 
 ---
 
