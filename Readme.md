@@ -1,115 +1,132 @@
-# RealtimeChatApp - **JS BACKEND**
-RealtimeChatApp is a real-time messaging platform built with **Node.js**, **Express**, **MongoDB**, and **Socket.IO**. It allows users to engage in instant conversations with features like **one on one** chat rooms, and **real-time** message updates. **Redis** for faster data access to get minimal latency.
+# RealtimeChatApp - **JS Backend**
+
+**RealtimeChatApp** is a real-time messaging platform built with **Node.js**, **Express**, **MongoDB**, and **Socket.IO**. It allows users to engage in instant conversations with features like **one-on-one** chat rooms and **real-time** message updates. **Redis** is used for faster data access to minimize latency.
 
 ---
 
-## Features
-- **Real-Time Communication**: Instant messaging powered by **Socket.IO** for seamless user interaction.
-- **User Authentication**: Secure login and registration system to manage user access by (**email** / **username**)[**JWT**] / **goggle auth**.
-- **Chat Rooms**: Create and join multiple chats for convertaons can customise the xhat experience.
-- **Minimal Latency**: No long never ending loops every time use the **Redis** to deal with the problem.
+## 🚀 Features
+
+* **Real-Time Communication**: Instant messaging powered by **Socket.IO** for seamless user interaction.
+* **User Authentication**: Secure login and registration system using **JWT** with support for **email**, **username**, and **Google OAuth**.
+* **Chat Rooms**: Create and join multiple chat rooms for personalized conversations.
+* **Minimal Latency**: Utilizes **Redis** to avoid inefficient polling and reduce delays.
 
 ---
 
-## Technologies Used
-- **Backend**: Node.js, Express.js
-- **Real-Time Engine**: Socket.IO
-- **Files handling**: Multer, cloudinary
-- **Cache Storage**: Redis
-- **Database**: MongoDB with Mongoose
+## 🛠️ Technologies Used
+
+* **Backend**: Node.js, Express.js
+* **Real-Time Engine**: Socket.IO
+* **File Handling**: Multer, Cloudinary
+* **Cache Storage**: Redis
+* **Database**: MongoDB with Mongoose
 
 ---
 
-## Setup
+## ⚙️ Setup
+
 1. **Clone the repository**:
-   ```powershell
+
+   ```bash
    git clone https://github.com/BhishanSharma/RealtimeChatApp.git
    ```
 2. **Navigate to the project directory**:
-   ```powershell
+
+   ```bash
    cd RealtimeChatApp
    ```
 3. **Install dependencies**:
-   ```powershell
+
+   ```bash
    npm install
    ```
-4. **To Start the application for development**:
-   ```powershell
+4. **Start the development server**:
+
+   ```bash
    npm run dev
    ```
 5. **Access the application**:
-   Open your browser and navigate to `http://localhost:<PORT>` to use the chat application.
+   Open your browser and go to `http://localhost:<PORT>`.
 
 ---
 
-## Project Structure
+## 📁 Project Structure
+
 ```
-|- **RealtimeChatApp**
-|   |- **public**
-|   |   |- **temp**
-|   |   |   |- .gitkeep
-|   |- **src**
-|   |   |- **controllers**
-|   |   |   |- user.controller.js
-|   |   |   |- message.controller.js
-|   |   |- **db**
-|   |   |   |- index.js
-|   |   |- **middlewares**
-|   |   |   |- verifyJWT.middleware.js
-|   |   |   |- multer.middleware.js
-|   |   |- **models**
-|   |   |   |- user.model.js
-|   |   |   |- message.model.js
-|   |   |- **routes**
-|   |   |   |- outh.route.js
-|   |   |   |- user.route.js
-|   |   |   |- message.route.js
-|   |   |- **sockets**
-|   |   |   |- io.js
-|   |   |   |- socket.js
-|   |   |- **utils**
-|   |   |   |- ApiError.js
-|   |   |   |- ApiResponse.js
-|   |   |   |- asyncHandler.js
-|   |   |   |- Passport.js
-|   |   |   |- cloudinary.js
-|   |   |- app.js
-|   |   |- constant.js
-|   |   |- index.js
-|   |- .env
-|   |- .gitignore
-|   |- package-lock.json
-|   |- package.json
-|   |- README.md
+RealtimeChatApp
+├── public
+│   └── temp
+│       └── .gitkeep
+├── src
+│   ├── controllers
+│   │   ├── user.controller.js
+│   │   └── message.controller.js
+│   ├── db
+│   │   └── index.js
+│   ├── middlewares
+│   │   ├── verifyJWT.middleware.js
+│   │   └── multer.middleware.js
+│   ├── models
+│   │   ├── user.model.js
+│   │   └── message.model.js
+│   ├── routes
+│   │   ├── oauth.route.js
+│   │   ├── user.route.js
+│   │   └── message.route.js
+│   ├── sockets
+│   │   ├── io.js
+│   │   └── socket.js
+│   ├── utils
+│   │   ├── ApiError.js
+│   │   ├── ApiResponse.js
+│   │   ├── asyncHandler.js
+│   │   ├── Passport.js
+│   │   └── cloudinary.js
+│   ├── app.js
+│   ├── constant.js
+│   └── index.js
+├── .env
+├── .gitignore
+├── package-lock.json
+├── package.json
+└── README.md
 ```
 
 ---
 
-## Endpoints
-### JWT Auth
-- `/register`
-- `/login`
-- `/logout`
-- `/change-password`
-- `/current-user`
-- `/refresh-token`
-### google OAuth
-- `/google`
-- `/google/callback`
-- `/logout`
-### chatting
-- `/send`
-- `/get-chat`
+## 🔗 API Endpoints
+
+### 🔒 JWT Auth
+
+* `POST /register`
+* `POST /login`
+* `POST /logout`
+* `POST /change-password`
+* `GET /current-user`
+* `POST /refresh-token`
+
+### 🔐 Google OAuth
+
+* `GET /google`
+* `GET /google/callback`
+* `POST /logout`
+
+### 💬 Chatting
+
+* `POST /send`
+* `GET /get-chat`
 
 ---
 
-## Usage
-- **Register**: Create a new account to start chatting.
-- **Login**: Access your account with your credentials.
-- **Join/Create Chat Rooms**: Enter existing rooms or create new ones to start conversations.
-- **Real-Time Messaging**: Send and receive messages instantly with other users in the room.
+## 🧪 Usage
+
+* **Register**: Sign up to start chatting.
+* **Login**: Access your account using your credentials.
+* **Join or Create Chat Rooms**: Enter existing rooms or create new ones to start conversations.
+* **Real-Time Messaging**: Send and receive messages instantly with other users.
 
 ---
 
-## Contributing
-Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.
+## 🤝 Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request for any improvements or bug fixes.
