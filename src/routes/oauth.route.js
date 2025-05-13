@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from '../utils/Passport.js';
-import { registerOAuthUser } from '../controllers/user.controller.js';
+import { loginOrRegisterOAuthUser } from '../controllers/user.controller.js';
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ router.get('/google', passport.authenticate('google', {
 // once user selects the profile gets redirected to this
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
-  registerOAuthUser
+  loginOrRegisterOAuthUser
 );
 
 router.get('/logout', (req, res, next) => {

@@ -2,6 +2,7 @@ import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -29,14 +30,29 @@ const registerUser = asyncHandler(async (req, res) => {
     email: email,
   });
 
+  const avatarLocalPath = req.files?.avatar[0]?.path;
   if (existUser) {
-    throw new ApiError(400, "email already in use !");
+    if (avatarLocalPath && fs.existsSync(avatarLocalPath)) {
+      fs.unlinkSync(avatarLocalPath);
+    }
+    throw new ApiError(409, "User with this email or password already exists");
+  }
+
+  if (!avatarLocalPath) {
+    throw new ApiError(400, "Avatar file is required");
+  }
+
+  const avatar = await uploadOnCloudinary(avatarLocalPath);
+
+  if (!avatar) {
+    throw new ApiError(400, "Avatar upload to clloudinary failure.");
   }
 
   const user = await User.create({
     name,
     email,
     password,
+    photo: avatar
   });
 
   const createdUser = await User.findById(user._id).select(
@@ -50,7 +66,7 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdUser, "user created successfully !"));
 });
 
-const registerOAuthUser = async (req, res, next) => {
+const loginOrRegisterOAuthUser = async (req, res, next) => {
   try {
     const profile = req.user;
 
@@ -92,13 +108,13 @@ const loginUser = asyncHandler(async (req, res) => {
   if (!nameOrEmail || !password) {
     throw new ApiError();
   }
-  
+
   const user = await User.findOne({ nameOrEmail });
   if (!user) {
     throw new ApiError(400, "User doesn't exist !");
   }
 
-  const isPasswordCorrect = User.isPasswordCorrect(password);
+  const isPasswordCorrect = await user.isPasswordCorrect(password);
   if (!isPasswordCorrect) {
     throw new ApiError();
   }
@@ -154,6 +170,24 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged out"));
 });
 
+const getCurrentUser = asyncHandler(async (req, res) => {
+  res
+    .status(200)
+    .json(new ApiResponse(200, req.user, "Current user fetched successfully"));
+});
+
+const changeCurrentPassword = asyncHandler(async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const user = User.findById(req.user._id);
+  const isPasswordValid = user.isPasswordCorrect(oldPassword);
+  if (!isPasswordValid) throw new ApiError(400, "Invalid old password");
+  user.password = newPassword;
+  await user.save({ validateBeforeSave: false });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Password changed Successfully"));
+});
+
 const refreshAccessToken = asyncHandler(async (req, res) => {
   try {
     const incomingRefreshToken =
@@ -168,7 +202,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET
     );
 
-    const user = User.findById(decodedToken?._id);
+    const user = await User.findById(decodedToken?._id);
 
     if (!user) {
       throw new ApiError(401, "Invalid refresh token.");
@@ -188,7 +222,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     );
 
     return res
-      .send(200)
+      .status(200)
       .cookie("accessToken", accessToken, options)
       .cookie("refreshToken", newRefreshToken, options)
       .json(
@@ -207,7 +241,9 @@ export {
   registerUser,
   loginUser,
   logoutUser,
-  registerOAuthUser,
+  loginOrRegisterOAuthUser,
   refreshAccessToken,
   generateAccessAndRefreshToken,
+  getCurrentUser,
+  changeCurrentPassword
 };
